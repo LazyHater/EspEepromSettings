@@ -1,0 +1,43 @@
+#######################################
+# Syntax Coloring Map For Logger
+#######################################
+# Class
+#######################################
+
+EspEepromSettings	KEYWORD1
+
+#######################################
+# Methods and Functions
+#######################################
+
+read	KEYWORD2
+write	KEYWORD2
+print	KEYWORD2
+setDefaults		KEYWORD2
+checkVersion	KEYWORD2
+checkCrc	KEYWORD2
+format	KEYWORD2
+
+setWifiSsid	KEYWORD2
+setWifiPassword	KEYWORD2
+setMqttHostname	KEYWORD2
+setMqttPort		KEYWORD2
+setMqttUsername	KEYWORD2
+setMqttPassword	KEYWORD2
+
+getWifiSsid	KEYWORD2
+getWifiPassword	KEYWORD2
+getMqttHostname	KEYWORD2
+getMqttPort		KEYWORD2
+getMqttUsername	KEYWORD2
+getMqttPassword	KEYWORD2
+
+#######################################
+# Constants
+#######################################
+
+ESP_EEPROM_VER		LITERAL1
+ESP_EEPROM_OK		LITERAL1
+ESP_EEPROM_VERSION_DO_NOT_MATCH		LITERAL1
+ESP_EEPROM_CRC_DO_NOT_MATCH		LITERAL1
+ESP_EEPROM_SETTINGS_NOT_INITED		LITERAL1
