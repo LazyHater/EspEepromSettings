@@ -121,52 +121,60 @@ int EspEepromSettings::write()
 	EEPROM.end();
 }
 
-int EspEepromSettings::setWifiSsid(char *ssid)
+int EspEepromSettings::setWifiSsid(const char *ssid)
 {
 	return this->setStringHelper(this->settings.wifi_ssid, ssid, sizeof(Settings::wifi_ssid));
 }
-int EspEepromSettings::setWifiPassword(char *password)
+int EspEepromSettings::setWifiPassword(const char *password)
 {
 	return this->setStringHelper(this->settings.wifi_password, password, sizeof(Settings::wifi_password));
 }
-int EspEepromSettings::setMqttHostname(char *hostname)
+int EspEepromSettings::setMqttHostname(const char *hostname)
 {
 	return this->setStringHelper(this->settings.mqtt_host, hostname, sizeof(Settings::mqtt_host));
 }
 int EspEepromSettings::setMqttPort(uint16_t port)
 {
-	return this->settings.mqtt_port = port;
+	this->settings.mqtt_port = port;
+	return ESP_EEPROM_OK;
 }
-int EspEepromSettings::setMqttUsername(char *username)
+int EspEepromSettings::setMqttUsername(const char *username)
 {
 	return this->setStringHelper(this->settings.mqtt_username, username, sizeof(Settings::mqtt_username));
 }
-int EspEepromSettings::setMqttPassword(char *password)
+int EspEepromSettings::setMqttPassword(const char *password)
 {
 	return this->setStringHelper(this->settings.mqtt_password, password, sizeof(Settings::mqtt_password));
 }
 
-int EspEepromSettings::setStringHelper(uint8_t *dst, char *src, int dst_size)
+int EspEepromSettings::setStringHelper(uint8_t *dst, const char *src, int dst_size)
 {
 	if (!this->inited)
 	{
 		Serial.println("Write settings error: settings are not inited!");
 		return ESP_EEPROM_SETTINGS_NOT_INITED;
 	}
-	int size = (strlen(src) > dst_size - 1) ? dst_size - 1 : strlen(src);
+
+	int size = strlen(src);
+	if (size > dst_size - 1)
+	{
+		Serial.println("Write settings error: source string too long!");
+		return ESP_EEPROM_SOURCE_STRING_TOO_LONG;
+	}
 	memset(dst + size, 0, dst_size - size);
 	memcpy(dst, src, size);
+	return ESP_EEPROM_OK;
 }
 
-char *EspEepromSettings::getWifiSsid()
+const char *EspEepromSettings::getWifiSsid()
 {
 	return (char *)this->settings.wifi_ssid;
 }
-char *EspEepromSettings::getWifiPassword()
+const char *EspEepromSettings::getWifiPassword()
 {
 	return (char *)this->settings.wifi_password;
 }
-char *EspEepromSettings::getMqttHostname()
+const char *EspEepromSettings::getMqttHostname()
 {
 	return (char *)this->settings.mqtt_host;
 }
@@ -174,11 +182,11 @@ uint16_t EspEepromSettings::getMqttPort()
 {
 	return this->settings.mqtt_port;
 }
-char *EspEepromSettings::getMqttUsername()
+const char *EspEepromSettings::getMqttUsername()
 {
 	return (char *)this->settings.mqtt_username;
 }
-char *EspEepromSettings::getMqttPassword()
+const char *EspEepromSettings::getMqttPassword()
 {
 	return (char *)this->settings.mqtt_password;
 }

@@ -13,9 +13,10 @@
 
 #define ESP_EEPROM_VER "ESP_V01"
 #define ESP_EEPROM_OK 0
-#define ESP_EEPROM_VERSION_DO_NOT_MATCH -1
-#define ESP_EEPROM_CRC_DO_NOT_MATCH -2
-#define ESP_EEPROM_SETTINGS_NOT_INITED -3
+#define ESP_EEPROM_VERSION_DO_NOT_MATCH 1
+#define ESP_EEPROM_CRC_DO_NOT_MATCH 2
+#define ESP_EEPROM_SETTINGS_NOT_INITED 3
+#define ESP_EEPROM_SOURCE_STRING_TOO_LONG 4
 
 class EspEepromSettings
 {
@@ -27,22 +28,22 @@ class EspEepromSettings
 	void setDefaults();
 	void format(bool set_defaults = true);
 
-	int setWifiSsid(char *ssid);
-	int setWifiPassword(char *password);
-	int setMqttHostname(char *hostname);
+	int setWifiSsid(const char *ssid);
+	int setWifiPassword(const char *password);
+	int setMqttHostname(const char *hostname);
 	int setMqttPort(uint16_t port);
-	int setMqttUsername(char *username);
-	int setMqttPassword(char *password);
+	int setMqttUsername(const char *username);
+	int setMqttPassword(const char *password);
 
-	char *getWifiSsid();
-	char *getWifiPassword();
-	char *getMqttHostname();
+	const char *getWifiSsid();
+	const char *getWifiPassword();
+	const char *getMqttHostname();
 	uint16_t getMqttPort();
-	char *getMqttUsername();
-	char *getMqttPassword();
+	const char *getMqttUsername();
+	const char *getMqttPassword();
 
   private:
-	int setStringHelper(uint8_t *dst, char *src, int dst_size);
+	int setStringHelper(uint8_t *dst, const char *src, int dst_size);
 	int checkVersion();
 	int checkCrc();
 	struct Settings
